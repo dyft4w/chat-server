@@ -6,7 +6,9 @@
 *.lo
 *.o
 *.obj
-
+#cmake/vscode folders
+.cache
+build
 # Precompiled Headers
 *.gch
 *.pch
