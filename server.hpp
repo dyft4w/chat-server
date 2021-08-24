@@ -2,6 +2,7 @@
 #include <asio.hpp>
 #include <asio/error_code.hpp>
 #include <asio/io_context.hpp>
+#include <memory>
 #include <vector>
 #include "connection.hpp"
 class Server{
@@ -11,12 +12,12 @@ public:
     }
 private:
     void accept(){
-        Connection connection(m_io,m_messages);
-        m_acceptor.async_accept(connection.getSocket(),std::bind(&Server::handleAccept,this,connection));
+        std::shared_ptr<Connection> c=Connection::create(m_io,m_messages);
+        m_acceptor.async_accept(c->getSocket(),std::bind(&Server::handleAccept,this,c));
     }
-    void handleAccept(Connection connection){
+    void handleAccept(std::shared_ptr<Connection> connection){
         //should add error code handler
-        connection.start();
+        connection->start();
         accept();
     }
     std::vector<std::string> m_messages;
