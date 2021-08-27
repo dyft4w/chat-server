@@ -25,16 +25,17 @@ private:
 
     }
     void read(){
-        std::string message;
-        asio::async_read(m_socket,asio::buffer(message),std::bind(&Connection::handleRead,this,message));
+        char* buffer;
+        asio::async_read(m_socket,asio::buffer(buffer, strlen(buffer)),std::bind(&Connection::handleRead,this,buffer));
     }
     void handleRead(std::string string){
         if(string.size()>0)
             addMessage(string);
         read();
     }
-    void addMessage(std::string string){
+    void addMessage(std::string to_add){
         std::cout << "add message and everything" << std::endl;
+        m_messages.push_back(to_add);
     }
     void write(){
         asio::error_code error;
