@@ -7,7 +7,7 @@
 #include "connection.hpp"
 class Server{
 public:
-    Server(asio::io_context& io,int port):m_io(io),m_acceptor(m_io,asio::ip::tcp::v4(),port),m_socket(m_io){
+    Server(asio::io_context& io,size_t port):m_io(io),m_acceptor(io,asio::ip::tcp::endpoint(asio::ip::tcp::v4(),port)){
         accept();
     }
 private:
@@ -23,5 +23,4 @@ private:
     std::vector<std::string> m_messages;
     asio::io_context &m_io;
     asio::ip::tcp::acceptor m_acceptor;
-    asio::ip::tcp::socket m_socket;
 };

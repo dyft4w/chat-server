@@ -22,7 +22,6 @@ public:
     }
 private:
     Connection(asio::io_context& io_context, std::vector<std::string>& messages):m_socket(io_context),m_messages(messages),total_sent(0){
-
     }
     void read(){
         char* buffer;
