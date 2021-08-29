@@ -5,45 +5,17 @@
 *.slo
 *.lo
 *.o
-*.obj
+*.obj 
+
 #cmake/vscode folders
 .cache
 build
-
-
-
-
-
-
-
-
-
 CMakeFiles
 cmake_install.cmake
 CMakeCache.txt
 compile_commands.json
 Makefile
-
-
-
-
 chat-server
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # Precompiled Headers
 *.gch
