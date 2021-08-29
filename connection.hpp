@@ -3,7 +3,6 @@
 #include <asio/error.hpp>
 #include <asio/error_code.hpp>
 #include <asio/streambuf.hpp>
-#include <boost/bind.hpp>
 #include <chrono>
 #include <memory>
 #include <thread>
