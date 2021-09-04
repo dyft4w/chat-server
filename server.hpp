@@ -1,5 +1,7 @@
 #pragma once
 #include <asio.hpp>
+#include <asio/buffer.hpp>
+#include <asio/connect.hpp>
 #include <asio/error_code.hpp>
 #include <asio/io_context.hpp>
 #include <memory>
@@ -17,7 +19,9 @@ private:
     }
     void handleAccept(std::shared_ptr<Connection> connection){
         //should add error code handler
-        connection->start();
+        std::cout << "Started Connection" << std::endl;
+        std::thread thr(std::bind(&Connection::start,connection));
+        thr.detach();
         accept();
     }
     std::vector<std::string> m_messages;
