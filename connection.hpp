@@ -1,9 +1,12 @@
 #pragma once
 #include <asio.hpp>
+#include <asio/buffers_iterator.hpp>
 #include <asio/error.hpp>
 #include <asio/error_code.hpp>
 #include <asio/streambuf.hpp>
 #include <chrono>
+#include <cstdlib>
+#include <iterator>
 #include <memory>
 #include <thread>
 #include <iostream>
@@ -23,8 +26,11 @@ private:
     Connection(asio::io_context& io_context, std::vector<std::string>& messages):m_socket(io_context),m_messages(messages),total_sent(0){
     }
     void read(){
-        char* buffer;
-        asio::async_read(m_socket,asio::buffer(buffer, strlen(buffer)),std::bind(&Connection::handleRead,this,buffer));
+        std::shared_ptr<asio::streambuf> sb;
+        asio::async_read(m_socket,*sb,[this,&sb](asio::streambuf& strb){
+                std::string read_str(asio::buffers_begin(strb.data()),asio::buffers_begin(strb.data())+strb.size());
+                handleRead(read_str);
+            });
     }
     void handleRead(std::string string){
         if(string.size()>0)
@@ -52,4 +58,5 @@ private:
     asio::ip::tcp::endpoint m_endpoint;
     std::vector<std::string>& m_messages;
     int total_sent;
+    std::string temp;
 };
