@@ -1,14 +1,6 @@
 #pragma once
 #include <asio.hpp>
-#include <asio/buffers_iterator.hpp>
-#include <asio/error.hpp>
-#include <asio/error_code.hpp>
-#include <asio/streambuf.hpp>
-#include <chrono>
-#include <cstdlib>
-#include <iterator>
-#include <memory>
-#include <thread>
+#include <asio/buffer.hpp>
 #include <iostream>
 class Connection:public std::enable_shared_from_this<Connection>{
 public:
@@ -23,18 +15,15 @@ public:
         return m_socket;
     }
 private:
-    Connection(asio::io_context& io_context, std::vector<std::string>& messages):m_socket(io_context),m_messages(messages),total_sent(0){
-    }
+    Connection(asio::io_context& io_context, std::vector<std::string>& messages):m_socket(io_context),m_messages(messages),total_sent(0){}
     void read(){
-        std::shared_ptr<asio::streambuf> sb;
-        asio::async_read(m_socket,*sb,[this,&sb](asio::streambuf& strb){
-                std::string read_str(asio::buffers_begin(strb.data()),asio::buffers_begin(strb.data())+strb.size());
-                handleRead(read_str);
-            });
+        std::vector<char> buffer;
+        //asio::error_code err;
+        asio::async_read(m_socket,asio::dynamic_buffer(buffer),std::bind(&Connection::handleRead,this,buffer.data()));
     }
     void handleRead(std::string string){
         if(string.size()>0)
-            addMessage(string);
+            addMessage(string);std::cout << string << std::endl;
         read();
     }
     void addMessage(std::string to_add){
