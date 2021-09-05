@@ -15,6 +15,9 @@ public:
         return std::shared_ptr<Connection>(new Connection(io_context,messages));
     }
     void start(){
+        std::stringstream message;
+        message << m_socket.remote_endpoint() << " joined" << std::endl;
+        addMessage(message.str());
         std::thread read_thr(std::bind(&Connection::read,shared_from_this()));
         read_thr.detach();
         std::thread write_thr(std::bind(&Connection::write,shared_from_this()));
@@ -28,7 +31,9 @@ private:
     void read(){
         asio::async_read_until(m_socket,m_sb,'\n',[self=shared_from_this()](asio::error_code err_code,std::size_t bytes_transferred){
             if(err_code){
-                self->addMessage("Someone left\n");
+                std::stringstream message;
+                message << self->m_socket.remote_endpoint() << " left" << std::endl;
+                self->addMessage(message.str());
                 //shutdown socket
                 self->m_socket.shutdown(asio::ip::tcp::socket::shutdown_both);
             }else{

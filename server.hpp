@@ -19,7 +19,6 @@ private:
     }
     void handleAccept(std::shared_ptr<Connection> connection){
         //should add error code handler
-        std::cout << "Started Connection" << std::endl;
         std::thread thr(std::bind(&Connection::start,connection));
         thr.detach();
         accept();
@@ -27,4 +26,5 @@ private:
     std::vector<std::string> m_messages;
     asio::io_context &m_io;
     asio::ip::tcp::acceptor m_acceptor;
+    std::stringstream temp;
 };
