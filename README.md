@@ -7,6 +7,7 @@
 ## Instructions to install:
 ```
 git clone -b stable https://www.github.com/dyft4w/chat-server.git
+cd chat-server
 cmake .
 make
 ./chat-server
