@@ -8,14 +8,14 @@
 #include <string>
 #include <asio.hpp>
 int main(int argc, char* argv[]){
-    /*if(argc!=2){
+    if(argc!=2){
         std::cerr << "Usage: chat-server <port>\n";
         return 1;
     }
     if(std::stoi(argv[1])<1 || std::stoi(argv[1])>65535){
         std::cerr << "Port must be in range 0-65535\n";
         return 1;
-    }*/
+    }
     try{
         asio::io_context io;
         Server server(io,std::stoi("13"));
