@@ -15,10 +15,11 @@ int main(int argc, char* argv[]){
     if(std::stoi(argv[1])<1 || std::stoi(argv[1])>65535){
         std::cerr << "Port must be in range 0-65535\n";
         return 1;
-    }
+    } 
+    std::cout << "https://github.com/dyft4w/chat-server" << std::endl;
     try{
         asio::io_context io;
-        Server server(io,std::stoi("13"));
+        Server server(io,std::stoi(argv[1]));
         io.run();
     }catch(std::exception& e){
         std::cerr << "Exception : " << e.what() << std::endl;
