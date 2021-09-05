@@ -17,7 +17,9 @@ compile_commands.json
 Makefile
 chat-server
 *.code-workspace
-
+.ninja_deps
+.ninja_log
+build.ninja
 # Precompiled Headers
 *.gch
 *.pch
